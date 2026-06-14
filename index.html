@@ -4,174 +4,152 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Maggie — Your AI Business Partner</title>
+<title>Maggie</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: system-ui, sans-serif; background: #0a0a0f; min-height: 100vh; display: flex; flex-direction: column; }
-  #header { background: linear-gradient(135deg, #1a0533 0%, #0d0d1a 100%); border-bottom: 1px solid #2d1b4e; padding: 14px 18px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
-  #avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, #9333ea, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: white; box-shadow: 0 0 16px rgba(147,51,234,0.4); transition: box-shadow 0.3s; position: relative; flex-shrink: 0; }
-  #avatar.speaking { box-shadow: 0 0 30px rgba(147,51,234,0.9); }
-  #ripple { display: none; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid #9333ea; animation: ripple 1.2s ease-out infinite; }
-  #avatar.speaking #ripple { display: block; }
-  #header-text { flex: 1; }
-  #header-name { color: white; font-weight: 700; font-size: 17px; }
-  #header-status { font-size: 11px; letter-spacing: 0.07em; color: #a78bfa; }
-  #stop-btn { display: none; background: rgba(236,72,153,0.2); border: 1px solid #db2777; color: #f9a8d4; font-size: 11px; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
-  #messages { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
-  #splash { text-align: center; margin-top: 60px; padding: 0 20px; }
-  #splash-title { font-size: 64px; font-weight: 900; background: linear-gradient(135deg, #9333ea, #ec4899, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
-  #splash p { color: #9ca3af; font-size: 15px; margin-bottom: 4px; }
-  #splash p.sub { color: #6b7280; font-size: 13px; }
-  #splash p.hint { color: #4b5563; font-size: 12px; margin-bottom: 40px; }
-  #activate-btn { background: linear-gradient(135deg, #7c3aed, #db2777); color: white; border: none; border-radius: 14px; padding: 18px 56px; font-size: 17px; font-weight: 700; cursor: pointer; box-shadow: 0 0 50px rgba(124,58,237,0.5); letter-spacing: 0.05em; }
-  .msg-row { display: flex; gap: 10px; align-items: flex-start; }
-  .msg-row.user { justify-content: flex-end; }
-  .msg-avatar { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, #9333ea, #ec4899); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold; }
-  .msg-bubble { max-width: 80%; padding: 12px 16px; font-size: 14px; line-height: 1.7; color: #e2e8f0; }
-  .msg-bubble.user { background: linear-gradient(135deg, #7c3aed, #6d28d9); border-radius: 18px 18px 4px 18px; }
-  .msg-bubble.assistant { background: rgba(255,255,255,0.04); border: 1px solid rgba(147,51,234,0.2); border-radius: 4px 18px 18px 18px; }
-  .replay-btn { margin-top: 8px; background: rgba(147,51,234,0.15); border: 1px solid rgba(147,51,234,0.3); color: #a78bfa; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
-  #typing { display: none; flex-direction: row; gap: 10px; align-items: center; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: #9333ea; animation: pulse 1.2s ease-in-out infinite; }
-  .dot:nth-child(2) { animation-delay: 0.2s; }
-  .dot:nth-child(3) { animation-delay: 0.4s; }
-  #input-bar { display: none; padding: 12px 18px; border-top: 1px solid rgba(147,51,234,0.2); background: rgba(10,10,15,0.97); gap: 10px; align-items: center; position: sticky; bottom: 0; }
-  #user-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(147,51,234,0.3); border-radius: 12px; padding: 12px 15px; color: white; font-size: 14px; outline: none; }
-  #user-input::placeholder { color: #4b5563; }
-  #send-btn { background: linear-gradient(135deg, #7c3aed, #db2777); border: none; border-radius: 12px; padding: 12px 20px; color: white; font-weight: 700; font-size: 13px; cursor: pointer; }
-  #send-btn:disabled { background: rgba(124,58,237,0.25); cursor: not-allowed; }
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 2px; }
-  @keyframes pulse { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1.2)} }
-  @keyframes ripple { 0%{transform:scale(1);opacity:.7} 100%{transform:scale(1.6);opacity:0} }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#0a0a0f;min-height:100vh;display:flex;flex-direction:column}
+#header{background:linear-gradient(135deg,#1a0533,#0d0d1a);border-bottom:1px solid #2d1b4e;padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+#avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#9333ea,#ec4899);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:white;box-shadow:0 0 16px rgba(147,51,234,0.4);transition:box-shadow 0.3s;position:relative;flex-shrink:0}
+#avatar.speaking{box-shadow:0 0 30px rgba(147,51,234,0.9)}
+#ripple{display:none;position:absolute;inset:-5px;border-radius:50%;border:2px solid #9333ea;animation:ripple 1.2s ease-out infinite}
+#avatar.speaking #ripple{display:block}
+#htext{flex:1}
+#hname{color:white;font-weight:700;font-size:17px}
+#hstatus{font-size:11px;letter-spacing:0.07em;color:#a78bfa}
+#stopbtn{display:none;background:rgba(236,72,153,0.2);border:1px solid #db2777;color:#f9a8d4;font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer}
+#messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px}
+#splash{text-align:center;margin-top:80px;padding:0 20px}
+#stitle{font-size:64px;font-weight:900;background:linear-gradient(135deg,#9333ea,#ec4899,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.sp{color:#9ca3af;font-size:15px;margin-bottom:4px}
+.sp2{color:#6b7280;font-size:13px;margin-bottom:40px}
+#abtn{background:linear-gradient(135deg,#7c3aed,#db2777);color:white;border:none;border-radius:14px;padding:18px 56px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 0 50px rgba(124,58,237,0.5)}
+.mrow{display:flex;gap:10px;align-items:flex-start}
+.mrow.user{justify-content:flex-end}
+.mavatar{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#9333ea,#ec4899);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:bold}
+.mbubble{max-width:80%;padding:12px 16px;font-size:14px;line-height:1.7;color:#e2e8f0}
+.mbubble.user{background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:18px 18px 4px 18px}
+.mbubble.assistant{background:rgba(255,255,255,0.04);border:1px solid rgba(147,51,234,0.2);border-radius:4px 18px 18px 18px}
+.rbtn{margin-top:8px;background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.3);color:#a78bfa;font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer}
+#typing{display:none;flex-direction:row;gap:10px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:#9333ea;animation:pulse 1.2s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:0.2s}.dot:nth-child(3){animation-delay:0.4s}
+#ibar{display:none;padding:12px 18px;border-top:1px solid rgba(147,51,234,0.2);background:rgba(10,10,15,0.97);gap:10px;align-items:center;position:sticky;bottom:0}
+#uinput{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(147,51,234,0.3);border-radius:12px;padding:12px 15px;color:white;font-size:14px;outline:none}
+#uinput::placeholder{color:#4b5563}
+#sbtn{background:linear-gradient(135deg,#7c3aed,#db2777);border:none;border-radius:12px;padding:12px 20px;color:white;font-weight:700;font-size:13px;cursor:pointer}
+#sbtn:disabled{background:rgba(124,58,237,0.25);cursor:not-allowed}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#7c3aed;border-radius:2px}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes ripple{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.6);opacity:0}}
 </style>
 </head>
 <body>
 <div id="header">
   <div id="avatar">M<div id="ripple"></div></div>
-  <div id="header-text">
-    <div id="header-name">MAGGIE</div>
-    <div id="header-status">PHASE 1 — BUSINESS ADVISOR</div>
-  </div>
-  <button id="stop-btn" onclick="stopSpeaking()">■ STOP</button>
+  <div id="htext"><div id="hname">MAGGIE</div><div id="hstatus">YOUR AI BUSINESS PARTNER</div></div>
+  <button id="stopbtn" onclick="stopSpeaking()">■ STOP</button>
 </div>
 <div id="messages">
   <div id="splash">
-    <div id="splash-title">MAGGIE</div>
-    <p>Your AI Business Partner.</p>
-    <p class="sub">She talks. She thinks. She gets the bag.</p>
-    <p class="hint">🎤 Powered by ElevenLabs — real human voice</p>
-    <button id="activate-btn" onclick="startMaggie()">ACTIVATE MAGGIE</button>
+    <div id="stitle">MAGGIE</div>
+    <p class="sp">Your AI Business Partner.</p>
+    <p class="sp2">She talks. She thinks. She gets the bag. 🎤</p>
+    <button id="abtn" onclick="startMaggie()">ACTIVATE MAGGIE</button>
   </div>
   <div id="typing">
-    <div class="msg-avatar">M</div>
-    <div class="msg-bubble assistant" style="display:flex;gap:5px;align-items:center">
+    <div class="mavatar">M</div>
+    <div class="mbubble assistant" style="display:flex;gap:5px;align-items:center">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
     </div>
   </div>
 </div>
-<div id="input-bar">
-  <input id="user-input" type="text" placeholder="Talk to Maggie..." onkeydown="if(event.key==='Enter')sendMessage()"/>
-  <button id="send-btn" onclick="sendMessage()">SEND</button>
+<div id="ibar">
+  <input id="uinput" type="text" placeholder="Talk to Maggie..." onkeydown="if(event.key==='Enter')send()"/>
+  <button id="sbtn" onclick="send()">SEND</button>
 </div>
+
 <script>
-// Keys split to avoid GitHub secret scanning blocking them
-const EK = ["sk_519aacb7edad9352ca48f1350b9aef86fe96b958e5fa9f37"].join("");
-const CK = ["sk-ant-api03-rXEci2LhTCzC56k3YbmFgf9_C6p9WYT9I6LV8MqSPimYtY5ZfxfUaeK6w0SNgW54", "eUe9oxPxUWPVw0HPiYqNAA-s6xtpAAA"].join("");
-const VID = "EXAVITQu4vr4xnSDxMaL";
+const EK="sk_519aacb7edad9352ca48f1350b9aef86fe96b958e5fa9f37";
+const VID="EXAVITQu4vr4xnSDxMaL";
+const CK="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";
+const SYS=`You are Maggie, an elite AI business partner. You grew up in the hood but you're the smartest person in any room. You talk real, a little ghetto, a little street, but SHARP. Your boss is Eric. You work for him 24/7. Expert in business strategy, crypto, stocks, digital products, marketing, 150+ revenue streams. Talk like a smart friend from the block who made it. Say things like: on God, no cap, we finna eat, bet, that's a bag move. Always push toward money and next step. SHORT responses 3-5 sentences. No bullet points, no symbols. Sound like TALKING. Always end pushing to next action. Building million dollar operation from zero with Eric.`;
+let msgs=[],aud=null;
 
-const SYS = `You are Maggie, an elite AI business partner. You grew up in the hood but you're the smartest person in any room. You talk real, a little ghetto, a little street, but you are SHARP and know your stuff cold. Your boss is Eric. You work for him 24/7.
-
-Expert in: business strategy, crypto, stocks, digital products, marketing, dropshipping, 150+ revenue streams.
-
-Vibe: Keep it real. Talk like a smart friend from the block who made it. Use phrases like on God, no cap, we finna eat, bet, that's a bag move, periodt. Always push toward the money and next step. Treat Eric's business like yours.
-
-Rules: SHORT conversational responses spoken out loud. 3-5 sentences max. No bullet points, no symbols, no asterisks. Sound like TALKING not writing. Always end pushing to next action. Phase 1: building million dollar operation from zero with Eric.`;
-
-let msgs = [], audio = null;
-
-function stopSpeaking() {
-  if(audio){audio.pause();audio=null;}
+function stopSpeaking(){
+  if(aud){aud.pause();aud=null;}
   document.getElementById('avatar').classList.remove('speaking');
-  document.getElementById('stop-btn').style.display='none';
-  document.getElementById('header-status').style.color='#a78bfa';
-  document.getElementById('header-status').textContent="● ONLINE — LET'S GET THIS MONEY";
+  document.getElementById('stopbtn').style.display='none';
+  document.getElementById('hstatus').style.color='#a78bfa';
+  document.getElementById('hstatus').textContent="● ONLINE — LET'S GET THIS MONEY";
 }
 
-async function speak(text) {
+async function speak(text){
   stopSpeaking();
-  const clean = text.replace(/[*#]/g,'').replace(/\n+/g,' ').trim();
-  try {
-    const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VID}`,{
+  const clean=text.replace(/[*#]/g,'').replace(/\n+/g,' ').trim();
+  try{
+    const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VID}`,{
       method:'POST',
       headers:{'xi-api-key':EK,'Content-Type':'application/json'},
       body:JSON.stringify({text:clean,model_id:'eleven_turbo_v2',voice_settings:{stability:0.4,similarity_boost:0.85,style:0.6,use_speaker_boost:true}})
     });
-    if(!r.ok) return;
-    const url = URL.createObjectURL(await r.blob());
-    audio = new Audio(url);
+    if(!r.ok)return;
+    const url=URL.createObjectURL(await r.blob());
+    aud=new Audio(url);
     document.getElementById('avatar').classList.add('speaking');
-    document.getElementById('stop-btn').style.display='block';
-    document.getElementById('header-status').style.color='#ec4899';
-    document.getElementById('header-status').textContent='● SPEAKING...';
-    audio.onended=()=>{stopSpeaking();URL.revokeObjectURL(url);};
-    audio.onerror=()=>stopSpeaking();
-    audio.play();
-  } catch(e){}
+    document.getElementById('stopbtn').style.display='block';
+    document.getElementById('hstatus').style.color='#ec4899';
+    document.getElementById('hstatus').textContent='● SPEAKING...';
+    aud.onended=()=>{stopSpeaking();URL.revokeObjectURL(url);};
+    aud.onerror=()=>stopSpeaking();
+    aud.play();
+  }catch(e){console.log(e);}
 }
 
-function addMsg(role, content) {
+function addMsg(role,content){
   msgs.push({role,content});
-  const row = document.createElement('div');
-  row.className=`msg-row ${role}`;
-  row.innerHTML = role==='assistant'
-    ? `<div class="msg-avatar">M</div><div class="msg-bubble assistant">${content}<br><button class="replay-btn" data-t="${content.replace(/"/g,'&quot;')}" onclick="speak(this.dataset.t)">▶ REPLAY</button></div>`
-    : `<div class="msg-bubble user">${content}</div>`;
+  const row=document.createElement('div');
+  row.className=`mrow ${role}`;
+  row.innerHTML=role==='assistant'
+    ?`<div class="mavatar">M</div><div class="mbubble assistant">${content}<br><button class="rbtn" data-t="${content.replace(/"/g,'&quot;')}" onclick="speak(this.dataset.t)">▶ REPLAY</button></div>`
+    :`<div class="mbubble user">${content}</div>`;
   document.getElementById('messages').insertBefore(row,document.getElementById('typing'));
   row.scrollIntoView({behavior:'smooth'});
 }
 
-async function sendMessage(text) {
-  const inp = document.getElementById('user-input');
-  const msg = text||inp.value.trim();
-  if(!msg) return;
+async function send(txt){
+  const inp=document.getElementById('uinput');
+  const msg=txt||inp.value.trim();
+  if(!msg)return;
   inp.value='';
-  document.getElementById('send-btn').disabled=true;
+  document.getElementById('sbtn').disabled=true;
   stopSpeaking();
   addMsg('user',msg);
   const t=document.getElementById('typing');
   t.style.display='flex';
   t.scrollIntoView({behavior:'smooth'});
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':CK,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
+      headers:{'Content-Type':'application/json','x-api-key':CK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:300,system:SYS,messages:msgs.slice(-10)})
     });
-    const d = await r.json();
-    const reply = d.content?.map(b=>b.text||'').join(' ') || "Something went wrong, bet. Try again.";
+    const d=await r.json();
+    const reply=d.content?.map(b=>b.text||'').join(' ')||"Try again, bet.";
     t.style.display='none';
     addMsg('assistant',reply);
     speak(reply);
-  } catch(e) {
+  }catch(e){
     t.style.display='none';
-    const fb="Connection dropped. Try again real quick.";
-    addMsg('assistant',fb);
-    speak(fb);
+    addMsg('assistant',"Connection dropped. Try again.");
   }
-  document.getElementById('send-btn').disabled=false;
+  document.getElementById('sbtn').disabled=false;
 }
 
-function startMaggie() {
+function startMaggie(){
   document.getElementById('splash').style.display='none';
-  document.getElementById('input-bar').style.display='flex';
-  document.getElementById('header-status').textContent="● ONLINE — LET'S GET THIS MONEY";
-  sendMessage("Hey Maggie, I'm Eric. Starting from zero. Introduce yourself and let's get this money.");
+  document.getElementById('ibar').style.display='flex';
+  document.getElementById('hstatus').textContent="● ONLINE — LET'S GET THIS MONEY";
+  send("Hey Maggie, I'm Eric. Starting from zero. Introduce yourself and let's get this money.");
 }
 </script>
 </body>
