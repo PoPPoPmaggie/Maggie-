@@ -102,7 +102,7 @@ async function send_auto(){
   addMsg('user',"Hey Maggie, I'm Eric. Starting from zero. Introduce yourself.");
   document.getElementById('hstatus').textContent='● THINKING...';
   try{
-    const r=await fetch('https://maggie-jis0.onrender.com/chat?t='+Date.now(),{
+    const r=await fetch('https://maggie-jis0.onrender.com/chat,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({messages:msgs.slice(-10)})
