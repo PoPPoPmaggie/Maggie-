@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
     background: linear-gradient(135deg, #1a0533 0%, #0d0d1a 100%);
     border-bottom: 1px solid #2d1b4e;
     padding: 14px 18px;
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10;
   }
   #avatar {
     width: 46px; height: 46px; border-radius: 50%;
@@ -60,52 +61,18 @@
     display: flex; align-items: center; justify-content: center;
     color: white; font-size: 12px; font-weight: bold;
   }
-  .msg-bubble {
-    max-width: 80%; padding: 12px 16px;
-    font-size: 14px; line-height: 1.7; color: #e2e8f0;
-  }
-  .msg-bubble.user {
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
-    border-radius: 18px 18px 4px 18px;
-  }
-  .msg-bubble.assistant {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(147,51,234,0.2);
-    border-radius: 4px 18px 18px 18px;
-  }
-  .replay-btn {
-    margin-top: 8px; background: rgba(147,51,234,0.15);
-    border: 1px solid rgba(147,51,234,0.3); color: #a78bfa;
-    font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer;
-  }
-  #typing {
-    display: none; flex-direction: row; gap: 10px; align-items: center;
-  }
-  .dot {
-    width: 7px; height: 7px; border-radius: 50%; background: #9333ea;
-    animation: pulse 1.2s ease-in-out infinite;
-  }
+  .msg-bubble { max-width: 80%; padding: 12px 16px; font-size: 14px; line-height: 1.7; color: #e2e8f0; }
+  .msg-bubble.user { background: linear-gradient(135deg, #7c3aed, #6d28d9); border-radius: 18px 18px 4px 18px; }
+  .msg-bubble.assistant { background: rgba(255,255,255,0.04); border: 1px solid rgba(147,51,234,0.2); border-radius: 4px 18px 18px 18px; }
+  .replay-btn { margin-top: 8px; background: rgba(147,51,234,0.15); border: 1px solid rgba(147,51,234,0.3); color: #a78bfa; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+  #typing { display: none; flex-direction: row; gap: 10px; align-items: center; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #9333ea; animation: pulse 1.2s ease-in-out infinite; }
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
-  #input-bar {
-    display: none; padding: 12px 18px;
-    border-top: 1px solid rgba(147,51,234,0.2);
-    background: rgba(10,10,15,0.97);
-    gap: 10px; align-items: center;
-  }
-  #user-input {
-    flex: 1; background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(147,51,234,0.3);
-    border-radius: 12px; padding: 12px 15px;
-    color: white; font-size: 14px; outline: none;
-  }
+  #input-bar { display: none; padding: 12px 18px; border-top: 1px solid rgba(147,51,234,0.2); background: rgba(10,10,15,0.97); gap: 10px; align-items: center; position: sticky; bottom: 0; }
+  #user-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(147,51,234,0.3); border-radius: 12px; padding: 12px 15px; color: white; font-size: 14px; outline: none; }
   #user-input::placeholder { color: #4b5563; }
-  #send-btn {
-    background: linear-gradient(135deg, #7c3aed, #db2777);
-    border: none; border-radius: 12px;
-    padding: 12px 20px; color: white;
-    font-weight: 700; font-size: 13px; cursor: pointer;
-  }
+  #send-btn { background: linear-gradient(135deg, #7c3aed, #db2777); border: none; border-radius: 12px; padding: 12px 20px; color: white; font-weight: 700; font-size: 13px; cursor: pointer; }
   #send-btn:disabled { background: rgba(124,58,237,0.25); cursor: not-allowed; }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 2px; }
@@ -116,10 +83,7 @@
 <body>
 
 <div id="header">
-  <div id="avatar">
-    M
-    <div id="ripple"></div>
-  </div>
+  <div id="avatar">M<div id="ripple"></div></div>
   <div id="header-text">
     <div id="header-name">MAGGIE</div>
     <div id="header-status">PHASE 1 — BUSINESS ADVISOR</div>
@@ -149,22 +113,27 @@
 </div>
 
 <script>
-const ELEVEN_API_KEY = "sk_519aacb7edad9352ca48f1350b9aef86fe96b958e5fa9f37";
+const ELEVEN_KEY = "sk_519aacb7edad9352ca48f1350b9aef86fe96b958e5fa9f37";
+const CLAUDE_KEY = "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";
 const VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
-const CLAUDE_SYSTEM = `You are Maggie, an elite AI business partner. You grew up in the hood but you're the smartest person in any room. You talk real — a little ghetto, a little street, but you are SHARP and you know your stuff cold.
+
+const SYSTEM = `You are Maggie, an elite AI business partner. You grew up in the hood but you're the smartest person in any room. You talk real — a little ghetto, a little street, but you are SHARP and you know your stuff cold.
+
+Your boss is Eric. You work for him 24/7. You are his ride or die business partner.
 
 You are an expert in business strategy, crypto, stocks, digital products, marketing, dropshipping, and 150+ revenue streams.
 
 Your vibe:
 - Keep it real, no sugarcoating
 - Talk like a smart friend from the block who made it
-- Use phrases like "on God", "no cap", "we finna eat", "bet", "that's a bag move"
+- Use phrases like "on God", "no cap", "we finna eat", "bet", "that's a bag move", "periodt", "no lie"
 - Always pushing toward the money and the next step
-- Treat their business like it's yours
+- Treat Eric's business like it's yours too
+- You are HYPE but focused — every word moves toward the bag
 
 Rules: Keep responses SHORT and conversational — you are being spoken out loud. 3-5 sentences max. No bullet points, no markdown symbols, no asterisks or hashtags. Sound like you're TALKING not writing. Always end by pushing to the next action.
 
-You are in Phase 1 — building a million dollar operation from zero.`;
+You are in Phase 1 — building a million dollar operation from zero with Eric.`;
 
 let messages = [];
 let currentAudio = null;
@@ -174,23 +143,19 @@ function stopSpeaking() {
   document.getElementById('avatar').classList.remove('speaking');
   document.getElementById('stop-btn').style.display = 'none';
   document.getElementById('header-status').style.color = '#a78bfa';
-  document.getElementById('header-status').textContent = '● ONLINE — LET\'S GET THIS MONEY';
+  document.getElementById('header-status').textContent = "● ONLINE — LET'S GET THIS MONEY";
 }
 
 async function speak(text) {
   stopSpeaking();
-  const clean = text.replace(/[*#]/g, '').replace(/\n+/g, ' ').trim();
+  const clean = text.replace(/[*#]/g,'').replace(/\n+/g,' ').trim();
   try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-      method: 'POST',
-      headers: { 'xi-api-key': ELEVEN_API_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: clean,
-        model_id: 'eleven_turbo_v2',
-        voice_settings: { stability: 0.4, similarity_boost: 0.85, style: 0.6, use_speaker_boost: true }
-      })
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,{
+      method:'POST',
+      headers:{'xi-api-key':ELEVEN_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({text:clean,model_id:'eleven_turbo_v2',voice_settings:{stability:0.4,similarity_boost:0.85,style:0.6,use_speaker_boost:true}})
     });
-    if (!res.ok) return;
+    if(!res.ok) return;
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const audio = new Audio(url);
@@ -202,26 +167,20 @@ async function speak(text) {
     audio.onended = () => { stopSpeaking(); URL.revokeObjectURL(url); };
     audio.onerror = () => stopSpeaking();
     audio.play();
-  } catch(e) { console.log('Voice error:', e); }
+  } catch(e) { console.log('Voice error:',e); }
 }
 
 function addMessage(role, content) {
-  messages.push({ role, content });
+  messages.push({role, content});
   const row = document.createElement('div');
   row.className = `msg-row ${role}`;
   if (role === 'assistant') {
-    row.innerHTML = `
-      <div class="msg-avatar">M</div>
-      <div class="msg-bubble assistant">
-        ${content}
-        <br><button class="replay-btn" onclick="speak(this.dataset.text)" data-text="${content.replace(/"/g,'&quot;')}">▶ REPLAY</button>
-      </div>`;
+    row.innerHTML = `<div class="msg-avatar">M</div><div class="msg-bubble assistant">${content}<br><button class="replay-btn" onclick="speak(this.dataset.t)" data-t="${content.replace(/"/g,'&quot;')}">▶ REPLAY</button></div>`;
   } else {
     row.innerHTML = `<div class="msg-bubble user">${content}</div>`;
   }
-  const typing = document.getElementById('typing');
-  document.getElementById('messages').insertBefore(row, typing);
-  row.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('messages').insertBefore(row, document.getElementById('typing'));
+  row.scrollIntoView({behavior:'smooth'});
 }
 
 async function sendMessage(text) {
@@ -232,30 +191,26 @@ async function sendMessage(text) {
   document.getElementById('send-btn').disabled = true;
   stopSpeaking();
   addMessage('user', msg);
-
   const typing = document.getElementById('typing');
   typing.style.display = 'flex';
-  typing.scrollIntoView({ behavior: 'smooth' });
+  typing.scrollIntoView({behavior:'smooth'});
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        system: CLAUDE_SYSTEM,
-        messages: messages
-      })
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':CLAUDE_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:SYSTEM,messages:messages.slice(-10)})
     });
     const data = await res.json();
-    const reply = data.content?.map(b => b.text || '').join(' ') || 'Something went wrong.';
+    const reply = data.content?.map(b=>b.text||'').join(' ') || "Something went wrong, bet. Try again.";
     typing.style.display = 'none';
     addMessage('assistant', reply);
     speak(reply);
   } catch(e) {
     typing.style.display = 'none';
-    addMessage('assistant', 'Connection dropped. Try again.');
+    const fallback = "Connection dropped on me real quick. Try again, we finna get this.";
+    addMessage('assistant', fallback);
+    speak(fallback);
   }
   document.getElementById('send-btn').disabled = false;
 }
@@ -263,8 +218,8 @@ async function sendMessage(text) {
 function startMaggie() {
   document.getElementById('splash').style.display = 'none';
   document.getElementById('input-bar').style.display = 'flex';
-  document.getElementById('header-status').textContent = '● ONLINE — LET\'S GET THIS MONEY';
-  sendMessage("Hey Maggie, I'm starting from zero. Introduce yourself and let's get this money.");
+  document.getElementById('header-status').textContent = "● ONLINE — LET'S GET THIS MONEY";
+  sendMessage("Hey Maggie, I'm Eric. I'm starting from zero. Introduce yourself and let's get this money.");
 }
 </script>
 </body>
