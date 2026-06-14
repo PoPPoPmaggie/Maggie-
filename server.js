@@ -54,7 +54,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === 'POST' && req.url === '/chat') {
+  if (req.method === 'POST' && req.url.startsWith('/chat'))
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
